@@ -11,10 +11,11 @@
  * TODO: Use the initGame() function to restart the game
  */
 
-// Variable to store the list of guesses 
+// Variable to store the list of guesses
+let numberGuess = []; 
 
 // Variable for store the correct random number 
-
+let correctNumber = [];
 
 window.onload = function() {
     document.getElementById("number-submit").addEventListener("click", playGame);
@@ -26,6 +27,7 @@ window.onload = function() {
  */
 function playGame(){
   // *CODE GOES BELOW HERE *
+  initGame();
 }
 
 /**
@@ -33,7 +35,15 @@ function playGame(){
  * HINT: Use if, else if, else statement 
  */
 // *CODE GOES BELOW HERE *
+let guess = document.getElementById('number-guess').value
 
+if(guess === getRandomNumber()){
+  showYouWon()
+}else if(guess < getRandomNumber()){
+  showNumberBelow()
+}else{
+  showNumberAbove()
+}
 
 
 /**
@@ -42,6 +52,9 @@ function playGame(){
  */
 function initGame(){
   // *CODE GOES BELOW HERE *
+  correctNumber = []
+  numberGuess = resetResultContent()
+  displayHistory()
 }
 
 /**
@@ -57,6 +70,7 @@ function resetResultContent(){
  */
 function getRandomNumber(){
   // *CODE GOES BELOW HERE *
+  return Math.ceil(Math.random()*100)
 }
 
 /**
@@ -66,6 +80,9 @@ function getRandomNumber(){
  */
 function saveGuessHistory(guess) {
   // *CODE GOES BELOW HERE *
+  let newGuess = [...numberGuess, guess]
+  return newGuess
+
 }
 
 /**
@@ -80,6 +97,11 @@ function displayHistory() {
   let index; // TODO
   let list = "<ul class='list-group'>";
   // *CODE GOES BELOW HERE *
+  while(index > 0){
+    index++;
+    return "<li class='list-group-item'>You guessed {number}</li>"
+    
+  }
   list += '</ul>'
   document.getElementById("history").innerHTML = list;
 }
@@ -112,7 +134,7 @@ function showYouWon(){
    * HINT: Use the 'won' and text parameters 
    */
   // *CODE GOES BELOW HERE *
-
+  let dialog = getDialog('won',text)
   document.getElementById("result").innerHTML = dialog;
 }
 
@@ -124,7 +146,7 @@ function showNumberAbove(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
-
+  let dialog = getDialog('warning',text)
   document.getElementById("result").innerHTML = dialog;
 }
 
@@ -136,6 +158,6 @@ function showNumberBelow(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
-
+  let dialog = getDialog('warning',text)
   document.getElementById("result").innerHTML = dialog;
 }
