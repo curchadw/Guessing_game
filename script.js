@@ -15,7 +15,7 @@
 let numberGuess = []; 
 
 // Variable for store the correct random number 
-let correctNumber = [];
+let correctNumber = getRandomNumber();
 
 window.onload = function() {
     document.getElementById("number-submit").addEventListener("click", playGame);
@@ -26,8 +26,10 @@ window.onload = function() {
  * Functionality for playing the whole game
  */
 function playGame(){
-  // *CODE GOES BELOW HERE *
-  initGame();
+  let numberGuess = document.getElementById('number-guess').value
+  displayGuess(numberGuess)
+  saveGuessHistory(numberGuess)
+  displayHistory()
 }
 
 /**
@@ -35,14 +37,18 @@ function playGame(){
  * HINT: Use if, else if, else statement 
  */
 // *CODE GOES BELOW HERE *
-let guess = document.getElementById('number-guess').value
+function displayGuess(numberGuess){
+ if(numberGuess === correctNumber){
+    showYouWon()
+   
+  }else if(numberGuess < correctNumber){
+    showNumberBelow()
+    
+  }else{
+    showNumberAbove()
+    
+  }
 
-if(guess === getRandomNumber()){
-  showYouWon()
-}else if(guess < getRandomNumber()){
-  showNumberBelow()
-}else{
-  showNumberAbove()
 }
 
 
@@ -52,9 +58,22 @@ if(guess === getRandomNumber()){
  */
 function initGame(){
   // *CODE GOES BELOW HERE *
-  correctNumber = []
-  numberGuess = resetResultContent()
-  displayHistory()
+  
+  
+  //reset correct number
+  //reset result display
+  //reset guess history
+  //reset guess history display
+  document.getElementById('number-guess').value = ''
+  correctNumber = getRandomNumber()
+  document.getElementById("result").innerHTML = ''
+  numberGuess = []
+  document.getElementById("history").innerHTML = ''
+
+  
+
+
+  
 }
 
 /**
@@ -70,7 +89,8 @@ function resetResultContent(){
  */
 function getRandomNumber(){
   // *CODE GOES BELOW HERE *
-  return Math.ceil(Math.random()*100)
+  let number = Math.floor(Math.random()*100) + 1
+  return number 
 }
 
 /**
@@ -80,8 +100,12 @@ function getRandomNumber(){
  */
 function saveGuessHistory(guess) {
   // *CODE GOES BELOW HERE *
-  let newGuess = [...numberGuess, guess]
-  return newGuess
+  numberGuess = [...numberGuess, guess]
+  
+  // numberGuess.push(guess)
+  console.log(numberGuess)
+  return numberGuess
+ 
 
 }
 
@@ -94,13 +118,13 @@ function saveGuessHistory(guess) {
  * HINT: use while loop and string concatentation to create a list of guesses
  */
 function displayHistory() {
-  let index; // TODO
+  let index = numberGuess.length - 1 ; // TODO
   let list = "<ul class='list-group'>";
   // *CODE GOES BELOW HERE *
-  while(index > 0){
-    index++;
-    return "<li class='list-group-item'>You guessed {number}</li>"
+  while(index >= 0){
     
+    list += `<li class='list-group-item'>You guessed ${numberGuess[index]}</li>`
+    index--;
   }
   list += '</ul>'
   document.getElementById("history").innerHTML = list;
@@ -134,6 +158,7 @@ function showYouWon(){
    * HINT: Use the 'won' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+
   let dialog = getDialog('won',text)
   document.getElementById("result").innerHTML = dialog;
 }
